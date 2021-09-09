@@ -1,72 +1,61 @@
-/**
- * Connect to the database and search using a criteria.
- */
 "use strict";
-
-// MongoDB
-const mongo = require("mongodb").MongoClient;
-const dsn =  process.env.DBWEBB_DSN || "mongodb://localhost:27017/documents";
-
-// Express server
 const port = process.env.DBWEBB_PORT || 1337;
 const express = require("express");
 const app = express();
+const morgan = require('morgan');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
+const index = require('./routes/index');
+const documents = require('./routes/documents');
+const db = require('./routes/db');
 
 
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Just for testing the sever
-app.get("/", (req, res) => {
-    res.send("Hello World");
-});
+app.use((req, res, next) => {
+    console.log(req.method);
+    console.log(req.path);
+    next();
+})
+
+app.use('/', index);
+app.use('/documents', documents);
+app.use('/db', db);
 
 
+// don't show the log when it is test
+if (process.env.NODE_ENV !== 'test') {
+    // use morgan to log at command line
+    app.use(morgan('combined')); // 'combined' outputs the Apache style LOGs
+}
 
-// Return a JSON object with list of all documents within the collection.
-app.get("/list", async (request, response) => {
-    try {
-        let res = await findInCollection(dsn, "crowd", {}, {}, 0);
+app.use((req, res, next) => {
+    let err = new Error("Not Found");
+    err.status = 404;
+    next(err);
+})
 
-        console.log(res);
-        response.json(res);
-    } catch (err) {
-        console.log(err);
-        response.json(err);
+app.use((err, req, res, next) => {
+    if (res.headersSent) {
+        return next(err)
     }
-});
 
+    res.status(err.status || 500).json({
+        "errors": [
+            {
+                "status": err.status,
+                "title": err.title,
+                "details": err.message
+            }
+        ]
+    });
+})
 
 
 // Startup server and liten on port
 app.listen(port, () => {
     console.log(`Server is listening on ${port}`);
-    console.log(`DSN is: ${dsn}`);
 });
-
-
-
-/**
- * Find documents in an collection by matching search criteria.
- *
- * @async
- *
- * @param {string} dsn        DSN to connect to database.
- * @param {string} colName    Name of collection.
- * @param {object} criteria   Search criteria.
- * @param {object} projection What to project in results.
- * @param {number} limit      Limit the number of documents to retrieve.
- *
- * @throws Error when database operation fails.
- *
- * @return {Promise<array>} The resultset as an array.
- */
-async function findInCollection(dsn, colName, criteria, projection, limit) {
-    const client  = await mongo.connect(dsn);
-    const db = await client.db();
-    const col = await db.collection(colName);
-    // const res = await col.find(criteria, projection).limit(limit).toArray();
-    const res = await col.distinct('name');
-
-    await client.close();
-
-    return res;
-}
