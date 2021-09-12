@@ -8,7 +8,6 @@ const bodyParser = require('body-parser');
 
 const index = require('./routes/index');
 const documents = require('./routes/documents');
-const db = require('./routes/db');
 
 
 app.use(cors());
@@ -23,7 +22,6 @@ app.use((req, res, next) => {
 
 app.use('/', index);
 app.use('/documents', documents);
-app.use('/db', db);
 
 
 // don't show the log when it is test
