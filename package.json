@@ -10,10 +10,16 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.12"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
+    "mocha": "^9.1.1",
+    "nyc": "^15.1.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "test": "nyc --reporter=html --reporter=text --reporter=clover mocha --timeout 10000",
+    "start": "nodemon app.js",
+    "clean": "rm -rf node_modules package-lock.json"
   },
   "repository": {
     "type": "git",
