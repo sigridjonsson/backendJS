@@ -1,5 +1,7 @@
 # Backend
 
+[![Build Status](https://app.travis-ci.com/sigridjonsson/backendJS.svg?branch=main)](https://app.travis-ci.com/sigridjonsson/backendJS)
+
 This is the backend for the [editor app](https://github.com/sigridjonsson/frontendJS).
 With this API it is possible to create and update documents saved in a MongoDB
 database.
