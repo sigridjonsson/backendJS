@@ -52,8 +52,6 @@ app.use((err, req, res, next) => {
     });
 })
 
+const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-// Startup server and liten on port
-app.listen(port, () => {
-    console.log(`Server is listening on ${port}`);
-});
+module.exports = server;
