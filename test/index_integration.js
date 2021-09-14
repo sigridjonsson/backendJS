@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 
 describe('Index', () => {
     describe('GET /', () => {
-        it('200 HAPPY PATH', (done) => {
+        it('Should return status 200 and a string.', (done) => {
             chai.request(server)
                 .get("/")
                 .end((err, res) => {
