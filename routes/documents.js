@@ -15,8 +15,6 @@ router.get("/", async (req, res) => {
 
 // POST ROUTER
 router.post("/", async (req, res) => {
-    console.log(req.body);
-    console.log(res.body);
     let doc = {
         name: req.body.name,
         text: req.body.text
@@ -33,10 +31,6 @@ router.post("/", async (req, res) => {
 
 // PUT ROUTER
 router.put("/:id", async (req, res) => {
-    console.log(req.params.id);
-    console.log(req.body);
-    console.log(res.body);
-
     const ObjectId = require('mongodb').ObjectId;
     let filter = {_id: ObjectId(req.params.id)};
     let doc = {
