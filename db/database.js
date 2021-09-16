@@ -4,10 +4,10 @@ const collectionName = "crowd";
 
 const database = {
     getDb: async function getDb () {
-        dsn = "mongodb://localhost:27017/test" ;
+        let dsn = `mongodb+srv://${config.username}:${config.password}@cluster0.j9zvn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
-        if (process.env.NODE_ENV !== 'test') {
-            let dsn = `mongodb+srv://${config.username}:${config.password}@cluster0.j9zvn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+        if (process.env.NODE_ENV === 'test') {
+            dsn = "mongodb://localhost:27017/test";
         }
 
         const client  = await mongo.connect(dsn, {

@@ -17,7 +17,7 @@
     "nyc": "^15.1.0"
   },
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text --reporter=clover mocha --timeout 10000",
+    "test": "nyc --reporter=html --reporter=text --reporter=clover mocha --timeout 10000 --exit",
     "start": "nodemon app.js",
     "clean": "rm -rf node_modules package-lock.json"
   },
