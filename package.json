@@ -8,7 +8,8 @@
     "express": "^4.17.1",
     "mongodb": "^4.1.1",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "socket.io": "^4.2.0"
   },
   "devDependencies": {
     "chai": "^4.3.4",
@@ -30,5 +31,9 @@
   "bugs": {
     "url": "https://github.com/sigridjonsson/backendJS/issues"
   },
-  "homepage": "https://github.com/sigridjonsson/backendJS#readme"
+  "homepage": "https://github.com/sigridjonsson/backendJS#readme",
+  "optionalDependencies": {
+    "bufferutil": "^4.0.3",
+    "utf-8-validate": "^5.0.5"
+  }
 }
