@@ -20,9 +20,11 @@ const io = require("socket.io")(httpServer, {
 });
 
 io.on('connection', function(socket) {
-    // console.log("Ny användare uppkopplad!");
+    let lastId;
     socket.on('create', function(room) {
+        socket.leave(lastId);
         socket.join(room);
+        lastId = room;
         socket.on("doc", function(data) {
             socket.to(data["_id"]).emit("doc", data);
         });
