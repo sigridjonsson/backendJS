@@ -73,8 +73,6 @@ app.use((err, req, res, next) => {
     });
 })
 
-// const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+const server = httpServer.listen(port);
 
-// module.exports = server;
-
-httpServer.listen(port);
+module.exports = server;
