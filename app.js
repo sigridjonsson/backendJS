@@ -14,7 +14,7 @@ const { log } = require("console");
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
     cors: {
-      origin: "*",
+      origin: 'http://www.student.bth.se',
       methods: ["GET", "POST"]
     }
 });

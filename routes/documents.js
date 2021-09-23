@@ -10,8 +10,6 @@ router.get("/", async (req, res) => {
     const resultSet = await db.collection.find({}, {}).toArray();
 
     res.json(resultSet);
-
-    await database.client.close();
 });
 
 
@@ -28,7 +26,6 @@ router.post("/", async (req, res) => {
     if (result.acknowledged) {
         return res.status(201).send(`Added an object with id ${result.insertedId}`);
     }
-    await database.client.close();
 })
 
 
@@ -50,7 +47,6 @@ router.put("/:id", async (req, res) => {
     if (result.acknowledged) {
         return res.status(204).send();
     }
-    await database.client.close();
 })
 
 module.exports = router;
