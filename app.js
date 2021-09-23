@@ -8,6 +8,27 @@ const bodyParser = require('body-parser');
 
 const index = require('./routes/index');
 const documents = require('./routes/documents');
+const { log } = require("console");
+
+
+const httpServer = require("http").createServer(app);
+const io = require("socket.io")(httpServer, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"]
+    }
+});
+
+io.on('connection', function(socket) {
+    // console.log("Ny användare uppkopplad!");
+    socket.on('create', function(room) {
+        socket.join(room);
+        socket.on("doc", function(data) {
+            socket.to(data["_id"]).emit("doc", data);
+        });
+    });
+});
+
 
 
 app.use(cors());
@@ -52,6 +73,8 @@ app.use((err, req, res, next) => {
     });
 })
 
-const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+// const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-module.exports = server;
+// module.exports = server;
+
+httpServer.listen(port);
