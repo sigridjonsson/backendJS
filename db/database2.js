@@ -1,6 +1,6 @@
 const mongo = require("mongodb").MongoClient;
 // const config = require("./config.json");
-const collectionName = "crowd";
+const collectionName = "users";
 
 let config;
 let username;
