@@ -1,24 +1,24 @@
 let database = require('../db/database');
 
 const data = {
-    getFunction: async function(req, res, next) {
+    getFunction: async function(req, res) {
         let db = await database.getDb();
         const resultSet = await db.collection.find(
             {
                 $or: [
-                {allowed_users:"sigrid@sigrid.se"}
+                {allowed_users: req.user.email}
                 ]
             } 
         ).toArray();
 
         res.json(resultSet);
     },
-    putFunction: async function(req, res, next) {
+    putFunction: async function(req, res) {
         const ObjectId = require('mongodb').ObjectId;
-        let filter = {_id: ObjectId(req.params.id)};
+        let filter = {_id: ObjectId(req.body.id)};
         let doc = {
             name: req.body.name,
-            text: req.body.text
+            text: req.body.text,
         }
 
         let db = await database.getDb();
@@ -26,12 +26,11 @@ const data = {
             filter,
             {$set: doc},
         );
-
         if (result.acknowledged) {
             return res.status(204).send();
         }
     },
-    postFunction: async function(req, res, next) {
+    postFunction: async function(req, res) {
         let doc = {
             name: req.body.name,
             text: req.body.text,

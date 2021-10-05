@@ -9,12 +9,6 @@ let database = require('../db/database2');
 
 const jwtSecret = process.env.JWT_SECRET || config.secret;
 
-router.get("/", async (req, res) => {
-    let db = await database.getDb();
-    const resultSet = await db.collection.find({}, {}).toArray();
-
-    res.json(resultSet);
-});
 
 // POST ROUTER FOR LOGIN
 router.post("/", async (req, res) => {
@@ -23,9 +17,6 @@ router.post("/", async (req, res) => {
 
     if (user) {
         bcrypt.compare(req.body.password, user.password, (err, result) => {
-            // console.log(result);
-            // console.log(user.password, "user.password");
-            // console.log(req.body.password, "req.body.password");
             if (err) {
                 return res.status(500).json({
                     errors: {

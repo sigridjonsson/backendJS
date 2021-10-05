@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken');
+const config = require('../db/config.json');
 
 const auth = {
     checkToken: function(req, res, next) {
         const token = req.headers['x-access-token'];
     
         if (token) {
-            jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
+            jwt.verify(token, config.secret, function(err, decoded) {
                 if (err) {
                     return res.status(500).json({
                         errors: {
@@ -17,10 +18,10 @@ const auth = {
                     });
                 }
     
-                // req.user = {};
-                // req.user.email = decoded.email;
+                req.user = {};
+                req.user.email = decoded.email;
     
-                next();
+                return next();
             });
         } else {
             return res.status(401).json({

@@ -1,22 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var config = require("../db/config.json");
 
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 let database = require('../db/database2');
 
-const jwtSecret = process.env.JWT_SECRET || config.secret;
 
-router.get("/", async (req, res) => {
-    let db = await database.getDb();
-    const resultSet = await db.collection.find({}, {}).toArray();
-
-    res.json(resultSet);
-});
-
-// POST ROUTER FOR LOGIN
+// POST ROUTER FOR REGISTER
 router.post("/", async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
