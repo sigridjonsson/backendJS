@@ -1,11 +1,8 @@
 var express = require('express');
 var router = express.Router();
-// const jwt = require('jsonwebtoken');
 
 const data = require("../models/data.js");
 const auth = require("../models/auth.js");
-
-let database = require('../db/database');
 
 
 // GET ROUTER

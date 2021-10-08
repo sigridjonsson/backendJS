@@ -12,6 +12,8 @@ const login = require('./routes/login');
 const register = require('./routes/register');
 const { log } = require("console");
 
+const auth = require("./models/auth.js");
+
 
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
@@ -35,6 +37,23 @@ io.on('connection', function(socket) {
 
 
 
+
+// GraphQL
+const visual = true;
+const { graphqlHTTP } = require('express-graphql');
+const {
+    GraphQLSchema
+} = require("graphql");
+
+const RootQueryType = require("./graphql/root.js");
+
+
+const schema = new GraphQLSchema({
+    query: RootQueryType
+});
+
+
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,6 +68,12 @@ app.use('/', index);
 app.use('/documents', documents);
 app.use('/login', login);
 app.use('/register', register);
+
+app.use('/graphql', 
+    graphqlHTTP({
+        schema: schema,
+        graphiql: visual,
+}));
 
 
 // don't show the log when it is test
@@ -79,6 +104,6 @@ app.use((err, req, res, next) => {
     });
 })
 
-const server = httpServer.listen(port);
+const server = httpServer.listen(port, () => console.log('Listening on port ' + port));
 
 module.exports = server;

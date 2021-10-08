@@ -1,4 +1,5 @@
 let database = require('../db/database');
+let database2 = require('../db/database2');
 
 const data = {
     getFunction: async function(req, res) {
@@ -12,6 +13,30 @@ const data = {
         ).toArray();
 
         res.json(resultSet);
+    },
+    getAll: async function(res=undefined) {
+        let db = await database.getDb();
+        let result = await db.collection.find().toArray();
+
+        if (res === undefined) {
+            return result;
+        }
+
+        return res.json({
+            data: result
+        });
+    },
+    getAllUsers: async function(res=undefined) {
+        let db = await database2.getDb();
+        let result = await db.collection.find().toArray();
+
+        if (res === undefined) {
+            return result;
+        }
+
+        return res.json({
+            data: result
+        });
     },
     putFunction: async function(req, res) {
         const ObjectId = require('mongodb').ObjectId;
