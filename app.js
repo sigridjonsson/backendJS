@@ -10,6 +10,7 @@ const index = require('./routes/index');
 const documents = require('./routes/documents');
 const login = require('./routes/login');
 const register = require('./routes/register');
+const email = require('./routes/email');
 const { log } = require("console");
 
 const auth = require("./models/auth.js");
@@ -68,6 +69,7 @@ app.use('/', index);
 app.use('/documents', documents);
 app.use('/login', login);
 app.use('/register', register);
+app.use('/email', email);
 
 app.use('/graphql', 
     graphqlHTTP({
