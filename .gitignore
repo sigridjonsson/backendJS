@@ -1,4 +1,5 @@
 node_modules/
 db/config.json
 coverage
-.nyc_outputsendgrid.env
+nyc_output/
+sendgrid.env
