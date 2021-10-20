@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
+const config = require('../db/config.json');
 
 // POST ROUTER FOR EMAIL
 router.post("/", async (req, res) => {
     const sgMail = require('@sendgrid/mail')
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+    sgMail.setApiKey(config.api_key)
     const msg = {
     to: req.body.email,
     from: 'sigge.jonsson@hotmail.se',
