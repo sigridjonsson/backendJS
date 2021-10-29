@@ -11,6 +11,7 @@ const documents = require('./routes/documents');
 const login = require('./routes/login');
 const register = require('./routes/register');
 const email = require('./routes/email');
+const graphql = require('./routes/graphql');
 const { log } = require("console");
 
 const auth = require("./models/auth.js");
@@ -36,25 +37,6 @@ io.on('connection', function(socket) {
     });
 });
 
-
-
-
-// GraphQL
-const visual = true;
-const { graphqlHTTP } = require('express-graphql');
-const {
-    GraphQLSchema
-} = require("graphql");
-
-const RootQueryType = require("./graphql/root.js");
-
-
-const schema = new GraphQLSchema({
-    query: RootQueryType
-});
-
-
-
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -70,13 +52,7 @@ app.use('/documents', documents);
 app.use('/login', login);
 app.use('/register', register);
 app.use('/email', email);
-
-app.use('/graphql', 
-    graphqlHTTP({
-        schema: schema,
-        graphiql: visual,
-}));
-
+app.use('/graphql', graphql);
 
 // don't show the log when it is test
 if (process.env.NODE_ENV !== 'test') {
